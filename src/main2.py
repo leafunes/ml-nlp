@@ -6,7 +6,7 @@ import logger
 from cleaner import clean_corpus
 from corpus import shuffle, split
 from selector import select_best_tokens, sentence_to_naive_bayes_feature, selector_factory_by_stdev, selector_factory_by_label
-from gym import train
+from gym import trainer_factory
 
 
 logger.DEBUG = False
@@ -20,6 +20,8 @@ def NB_classifier_trainer(train_corpus, selector):
 def NB_classifier_tester(classifier, test_corpus, selector):
     test_set = list(map(lambda x: (selector(x[0])[0], x[1]), test_corpus))
     return nltk.classify.accuracy(classifier, test_set)
+
+train = trainer_factory(3, 20, 10, 100)
 
 train(corpus, NB_classifier_trainer, NB_classifier_tester, selector_factory_by_label, sentence_to_naive_bayes_feature)
 

@@ -1,4 +1,5 @@
 import random
+import numpy
 
 def shuffle(corpus):
     newCorpus = corpus.copy()
@@ -8,8 +9,8 @@ def shuffle(corpus):
 def _get_percentage(percentage, total):
     return int((percentage * total) / 100)
 
-def equalSplit(corpus, parts):
-    pass
+def equal_split(corpus, parts):
+    return numpy.array_split(numpy.array(corpus),parts)
 
 def split(corpus, percentage):
     l = len(corpus)
