@@ -1,5 +1,6 @@
 import statistics 
 from cleaner import clean_sentence
+from logger import log, debug
 
 STD_CUT = 40
 
@@ -44,22 +45,19 @@ def selector_factory_by_stdev(cutValue):
         cut = _find_cut(list(map(lambda x: x[1], tokensCount)), cutValue)
         def curry(element):
             return element[1] > cut
-        return factory
-    return curry
+        return curry
+    return factory
 
 def selector_factory_by_label(cantOfEachLabel):
-    #TODO: hacer que devuelva, por ejemplo, los 5 mas pesados para el positiva
-    # y los 5 mas pesados para el negativo
     def factory(listOfTokensCount):
         tokensCount = listOfTokensCount.copy()
         tokensCount.sort(key=lambda tup: tup[1], reverse = True)
+        tokensCount = tokensCount[0: cantOfEachLabel]
         added = 0
         def curry(element):
-            if(False):
-                pass
-            return element[1] > cut
-        return factory
-    return curry
+            return element in tokensCount
+        return curry
+    return factory
 
 def _calculate_occurences(corpus):
     positive = []
@@ -89,9 +87,9 @@ def select_best_tokens(corpus, selector_factory):
         for t in tokensCount:
             if(selector(t)):
                 selectedTokens.append(t[0])
-    print("[Tokens soleccionados " + str(len(selectedTokens)) + " ]")
+    debug("[Tokens soleccionados " + str(len(selectedTokens)) + " ]")
     for t in selectedTokens:
-        print("[     " + t + " ]")
+        debug("[     " + t + " ]")
     
     return selectedTokens
 

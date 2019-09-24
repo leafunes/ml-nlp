@@ -1,9 +1,10 @@
 # coding=utf-8
 import csv
+from logger import log, debug
 
 #TODO: por ahora todo en memoria. Despues podemos implementar Streams
 def read_files(filenames):
-    print("[Leyendo archivos...]")
+    debug("[Leyendo archivos...]")
     corpus = []
     for filename in filenames :
         with open('../dataset/' + filename + '.csv') as datafile:
@@ -17,6 +18,6 @@ def read_files(filenames):
                     corpus.append( (content, 'neutral') )
                 else:
                     corpus.append( (content, 'negative') )
-            print("[   " + filename + " leido]")
+            debug("[   " + filename + " leido]")
             
     return corpus

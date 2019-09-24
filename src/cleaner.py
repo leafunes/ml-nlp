@@ -1,4 +1,5 @@
 from nltk.corpus import stopwords
+from logger import log, debug
 import nltk
 
 fillerWords = stopwords.words('spanish') + [
@@ -77,7 +78,7 @@ def clean_sentence(sentence):
 
 
 def clean_corpus(listOfTuples):
-    print("[Limpiando el corpus...]")
+    debug("[Limpiando el corpus...]")
 
     newCorpus = []
     for dataTuple in listOfTuples:
