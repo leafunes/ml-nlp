@@ -102,3 +102,21 @@ def sentence_to_naive_bayes_feature(selectedTokens):
                 features[token] += 1
         return (features, " ".join(sentenceAsList), sentence)
     return curry
+
+def sentence_to_SVM_feature(maxLen):
+    def with_max_len(selectedTokens):
+        selected_len = len(selectedTokens)
+        def curry(sentence):
+            sentenceAsList = clean_sentence(sentence)
+            features = [0] * selected_len
+            next_feature = 0
+            for token in sentenceAsList:
+                log("[" + sentence + "]")
+                if token in selectedTokens:
+                    log("    " + token + str(next_feature))
+                    features[next_feature] = selectedTokens.index(token)
+                    next_feature += 1
+
+            return (features, " ".join(sentenceAsList), sentence)
+        return curry
+    return with_max_len
